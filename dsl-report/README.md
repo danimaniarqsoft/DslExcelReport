@@ -3,7 +3,7 @@ DSL Framework for Apache Poi
 
 Introduction
 ------------------------------
-The present project try to make the Excel development easy through Fluent Api for create Excel documents. The core Api for the DSL[^fluetApi] is based on [Apache POI](http://poi.apache.org/ "Apache POI Home").
+The present project try to make the Excel development easy through Fluent Api for create Excel documents. The core Api for the DSL [^fluentApi] is based on [Apache POI](http://poi.apache.org/ "Apache POI Home").
 
 Excel Column Annotation
 ------------------------------
@@ -73,7 +73,7 @@ textPosition | this property is used for align vertical text both Horizontally a
 fontFormat | this property is used for font format | `FontFormat.NORMAL`
 
 
-[^fluetApi]:**Fluent Interface**, [Martin Fowler](http://martinfowler.com/bliki/FluentInterface.html) on December twenty of 2005 write about a certain style of interface which he decided to name **fluent interface**. We write DSL's based on the concept of **Fluent Interface**
+[^fluentApi]:**Fluent Interface**, [Martin Fowler](http://martinfowler.com/bliki/FluentInterface.html) on December twenty of 2005 write about a certain style of interface which he decided to name **fluent interface**. We write DSL's based on the concept of **Fluent Interface**
 
 
 &copy; danimaniArqsoft

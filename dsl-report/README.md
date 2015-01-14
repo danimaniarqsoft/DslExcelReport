@@ -73,7 +73,7 @@ textPosition | this property is used for align vertical text both Horizontally a
 fontFormat | this property is used for font format | `FontFormat.NORMAL`
 
 
-[^fluetApi]: **Fluent Interface**, [Martin Fowler](http://martinfowler.com/bliki/FluentInterface.html) on December twenty of 2005 write about a certain style of interface which he decided to name **fluent interface**. We write DSL's based on the concept of **Fluent Interface**
+[^fluetApi]:**Fluent Interface**, [Martin Fowler](http://martinfowler.com/bliki/FluentInterface.html) on December twenty of 2005 write about a certain style of interface which he decided to name **fluent interface**. We write DSL's based on the concept of **Fluent Interface**
 
 
 &copy; danimaniArqsoft

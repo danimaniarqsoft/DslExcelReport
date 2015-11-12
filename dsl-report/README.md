@@ -77,3 +77,9 @@ fontFormat | this property is used for font format | `FontFormat.NORMAL`
 
 
 &copy; danimaniArqsoft
+
+
+```sequence
+Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!

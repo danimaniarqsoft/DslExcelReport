@@ -13,10 +13,8 @@ import org.jfree.data.general.Dataset;
  */
 public class DatasetFactory {
 
-	public static <P> Dataset createDataset(List<P> dataset,
-			Class<P> datasetClass) {
+	public static <P> Dataset createDataset(List<P> dataset, Class<P> datasetClass) {
 		validateArguments(datasetClass);
-
 		return null;
 	}
 }

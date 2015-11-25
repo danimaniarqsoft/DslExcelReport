@@ -10,7 +10,7 @@ package com.danimaniarqsoft.report.exceptions;
 public class FieldNotExistException extends IllegalArgumentException {
 	private static final long serialVersionUID = 1L;
 
-	public FieldNotExistException(String message) {
-		super(message);
+	public FieldNotExistException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }

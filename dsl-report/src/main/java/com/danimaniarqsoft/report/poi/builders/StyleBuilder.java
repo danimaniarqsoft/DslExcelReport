@@ -12,10 +12,18 @@ import com.danimaniarqsoft.report.constants.TextPosition;
 import com.danimaniarqsoft.report.poi.reflection.ExcelColumnContext;
 import com.danimaniarqsoft.report.poi.reflection.ExcelContext;
 
+/**
+ * Builder for create Styles
+ * 
+ * @author Daniel Cortes Pichardo
+ *
+ */
 public class StyleBuilder {
 
-	public static Map<String, CellStyle> createCellStyles(ExcelContext context,
-			Workbook workbook) {
+	private StyleBuilder() {
+	}
+
+	public static Map<String, CellStyle> createCellStyles(ExcelContext context, Workbook workbook) {
 		Map<String, CellStyle> cellStyles = new HashMap<String, CellStyle>();
 		for (ExcelColumnContext colContext : context.getColumnContextList()) {
 			CellStyle cellStyle = createCellStyle(colContext, workbook);
@@ -24,22 +32,18 @@ public class StyleBuilder {
 		return cellStyles;
 	}
 
-	private static CellStyle createCellStyle(ExcelColumnContext context,
-			Workbook workbook) {
+	private static CellStyle createCellStyle(ExcelColumnContext context, Workbook workbook) {
 		CellStyle cellStyle = workbook.createCellStyle();
 		Font font = workbook.createFont();
-		TextPosition[] textPosition = context.getCellFormatContext()
-				.getTextPosition();
-		FontFormat[] fontFormat = context.getCellFormatContext()
-				.getFontFormat();
+		TextPosition[] textPosition = context.getCellFormatContext().getTextPosition();
+		FontFormat[] fontFormat = context.getCellFormatContext().getFontFormat();
 		addTextPosition(cellStyle, textPosition);
 		addFontFormat(cellStyle, font, fontFormat);
 		return cellStyle;
 
 	}
 
-	public static void addFontFormat(CellStyle cellStyle, Font font,
-			FontFormat[] fontFormat) {
+	public static void addFontFormat(CellStyle cellStyle, Font font, FontFormat[] fontFormat) {
 		font.setFontHeightInPoints((short) 10);
 		font.setFontName("Arial");
 		configFont(font, fontFormat);
@@ -56,8 +60,10 @@ public class StyleBuilder {
 					break;
 				case ITALIC:
 					font.setItalic(true);
+					break;
 				case STRIKEOUT:
 					font.setStrikeout(true);
+					break;
 				case COLOR_NORMAL:
 				case COLOR_RED:
 				case COLOR_BLUE:
@@ -75,6 +81,7 @@ public class StyleBuilder {
 				case CALIBRI:
 				case TIMES_NEW_ROMAN:
 					font.setFontName(format.getFontName());
+					break;
 				default:
 					break;
 				}
@@ -82,8 +89,7 @@ public class StyleBuilder {
 		}
 	}
 
-	public static void addTextPosition(CellStyle cellStyle,
-			TextPosition[] textPosition) {
+	public static void addTextPosition(CellStyle cellStyle, TextPosition[] textPosition) {
 		for (TextPosition position : textPosition) {
 			switch (position) {
 			case ALIGN_CENTER:

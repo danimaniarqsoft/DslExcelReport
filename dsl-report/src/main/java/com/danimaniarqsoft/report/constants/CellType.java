@@ -7,5 +7,5 @@ package com.danimaniarqsoft.report.constants;
  * 
  */
 public enum CellType {
-	BLANK, BOOLEAN, ERROR, FORMULA, NUMERIC, DATE, STRING
+    BLANK, BOOLEAN, ERROR, FORMULA, NUMERIC, DATE, STRING
 }

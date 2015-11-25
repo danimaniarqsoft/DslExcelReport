@@ -10,14 +10,14 @@ import org.apache.poi.ss.usermodel.Font;
  * 
  */
 public enum BackGroundColor {
-	BOLD(Font.BOLDWEIGHT_BOLD), NORMAL(Font.BOLDWEIGHT_NORMAL);
-	private short keyCode;
+    BOLD(Font.BOLDWEIGHT_BOLD), NORMAL(Font.BOLDWEIGHT_NORMAL);
+    private short keyCode;
 
-	private BackGroundColor(short keyCode) {
-		this.keyCode = keyCode;
-	}
+    private BackGroundColor(short keyCode) {
+        this.keyCode = keyCode;
+    }
 
-	public short getKeyCode() {
-		return this.keyCode;
-	}
+    public short getKeyCode() {
+        return this.keyCode;
+    }
 }

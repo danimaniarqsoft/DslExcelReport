@@ -2,19 +2,16 @@ package com.danimaniarqsoft.report.model;
 
 import java.util.Date;
 
-import com.danimaniarqsoft.report.annotations.Chart;
 import com.danimaniarqsoft.report.annotations.ExcelColumn;
-import com.danimaniarqsoft.report.charts.dsl.ChartType;
 import com.danimaniarqsoft.report.constants.CellType;
 import com.danimaniarqsoft.report.constants.FontFormat;
 import com.danimaniarqsoft.report.constants.TextPosition;
 
-@Chart(chartType = ChartType.BAR_CHART, xProperty = "cantidad", yProperty = "cantidad")
 public class Persona {
 
 	@ExcelColumn(name = "Persona", textPosition = { TextPosition.ALIGN_LEFT,
-			TextPosition.VERTICAL_JUSTIFY }, fontFormat = {
-			FontFormat.STRIKEOUT, FontFormat.BOLD, FontFormat.COLOR_GREEN })
+			TextPosition.VERTICAL_JUSTIFY }, fontFormat = { FontFormat.STRIKEOUT, FontFormat.BOLD,
+					FontFormat.COLOR_GREEN })
 	private String persona;
 
 	@ExcelColumn(name = "Cantidad", fontFormat = { FontFormat.COLOR_PURPLE })
@@ -23,9 +20,8 @@ public class Persona {
 	@ExcelColumn(name = "Edad", fontFormat = { FontFormat.COLOR_BLUE })
 	private int edad;
 
-	@ExcelColumn(name = "Fecha", type = CellType.DATE, fontFormat = {
-			FontFormat.BOLD, FontFormat.COLOR_RED, FontFormat.TIMES_NEW_ROMAN,
-			FontFormat.COLOR_ORANGE }, dateFormat = "dd/MM/YYYY")
+	@ExcelColumn(name = "Fecha", type = CellType.DATE, fontFormat = { FontFormat.BOLD, FontFormat.COLOR_RED,
+			FontFormat.TIMES_NEW_ROMAN, FontFormat.COLOR_ORANGE }, dateFormat = "dd/MM/YYYY")
 	private Date fecha;
 
 	public Persona(String persona, int edad, double cantidad, Date fecha) {

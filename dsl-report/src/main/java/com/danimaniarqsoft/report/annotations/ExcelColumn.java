@@ -9,6 +9,7 @@ import com.danimaniarqsoft.report.constants.CellType;
 import com.danimaniarqsoft.report.constants.FontFormat;
 import com.danimaniarqsoft.report.constants.TextPosition;
 
+
 /**
  * Annotation for create excel Cells
  * 
@@ -18,13 +19,13 @@ import com.danimaniarqsoft.report.constants.TextPosition;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface ExcelColumn {
-	public String name();
+    public String name();
 
-	public CellType type() default CellType.STRING;
+    public CellType type() default CellType.STRING;
 
-	public String dateFormat() default "dd/MM/yyyy";
+    public String dateFormat() default "dd/MM/yyyy";
 
-	public TextPosition[] textPosition() default { TextPosition.ALIGN_CENTER };
+    public TextPosition[] textPosition() default { TextPosition.ALIGN_CENTER };
 
-	public FontFormat[] fontFormat() default {FontFormat.NORMAL};
+    public FontFormat[] fontFormat() default { FontFormat.NORMAL };
 }

@@ -10,7 +10,8 @@ package com.danimaniarqsoft.report.exceptions;
 public class MethodNotPresentException extends IllegalArgumentException {
 	private static final long serialVersionUID = 1L;
 
-	public MethodNotPresentException(String message) {
-		super(message);
+	public MethodNotPresentException(String message, Throwable cause) {
+		super(message, cause);
 	}
+
 }

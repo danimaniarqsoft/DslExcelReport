@@ -7,23 +7,23 @@ import org.apache.poi.ss.usermodel.CellStyle;
 
 public class ExcelContext {
 
-    private Map<String, CellStyle> cellStyles;
-    private List<ExcelColumnContext> columnContextList;
+  private Map<String, CellStyle>   cellStyles;
+  private List<ExcelColumnContext> columnContextList;
 
-    public Map<String, CellStyle> getCellStyles() {
-        return cellStyles;
-    }
+  public Map<String, CellStyle> getCellStyles() {
+    return cellStyles;
+  }
 
-    public void setCellStyles(Map<String, CellStyle> cellStyles) {
-        this.cellStyles = cellStyles;
-    }
+  public void setCellStyles(Map<String, CellStyle> cellStyles) {
+    this.cellStyles = cellStyles;
+  }
 
-    public List<ExcelColumnContext> getColumnContextList() {
-        return columnContextList;
-    }
+  public List<ExcelColumnContext> getColumnContextList() {
+    return columnContextList;
+  }
 
-    public void setColumnContextList(List<ExcelColumnContext> columnContextList) {
-        this.columnContextList = columnContextList;
-    }
+  public void setColumnContextList(List<ExcelColumnContext> columnContextList) {
+    this.columnContextList = columnContextList;
+  }
 
 }

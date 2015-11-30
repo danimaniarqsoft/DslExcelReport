@@ -27,129 +27,117 @@ import com.danimaniarqsoft.report.util.ReflectionUtil;
  * 
  */
 public class ExcelColumnReflection {
-	/**
-	 * Create a rows based on ExcelAnnotation class to create Excel rows.
-	 * 
-	 * @param wbContext
-	 *            The workbookContext
-	 * @param rows
-	 * @param classWithAnnotation
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
-	 */
-	public static <T> void createRowStateFromExcelAnnotation(
-			WorkbookContext wbContext, List<T> rows,
-			Class<T> classWithAnnotation) throws NoSuchMethodException,
-			SecurityException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+  /**
+   * Create a rows based on ExcelAnnotation class to create Excel rows.
+   * 
+   * @param wbContext The workbookContext
+   * @param rows
+   * @param classWithAnnotation
+   * @throws NoSuchMethodException
+   * @throws SecurityException
+   * @throws IllegalAccessException
+   * @throws IllegalArgumentException
+   * @throws InvocationTargetException
+   */
+  public static <T> void createRowStateFromExcelAnnotation(WorkbookContext wbContext, List<T> rows,
+      Class<T> classWithAnnotation) throws NoSuchMethodException, SecurityException,
+          IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		ExcelContext excelContext = readExcelColumnAnnotations(classWithAnnotation);
-		createStylesForCells(excelContext, wbContext.getWorkbook());
-		createRows(wbContext, rows, excelContext);
-	}
+    ExcelContext excelContext = readExcelColumnAnnotations(classWithAnnotation);
+    createStylesForCells(excelContext, wbContext.getWorkbook());
+    createRows(wbContext, rows, excelContext);
+  }
 
-	private static void createStylesForCells(ExcelContext excelContext,
-			Workbook workbook) {
-		Map<String, CellStyle> cellSytles = StyleBuilder.createCellStyles(
-				excelContext, workbook);
-		excelContext.setCellStyles(cellSytles);
-	}
+  private static void createStylesForCells(ExcelContext excelContext, Workbook workbook) {
+    Map<String, CellStyle> cellSytles = StyleBuilder.createCellStyles(excelContext, workbook);
+    excelContext.setCellStyles(cellSytles);
+  }
 
-	private static <T> void createRows(WorkbookContext wbContext, List<T> rows,
-			ExcelContext excelContext) throws IllegalAccessException,
-			InvocationTargetException {
-		for (T classWithAnnotation : rows) {
-			createCells(wbContext, excelContext, classWithAnnotation);
-		}
-	}
+  private static <T> void createRows(WorkbookContext wbContext, List<T> rows,
+      ExcelContext excelContext) throws IllegalAccessException, InvocationTargetException {
+    for (T classWithAnnotation : rows) {
+      createCells(wbContext, excelContext, classWithAnnotation);
+    }
+  }
 
-	private static <T> void createCells(WorkbookContext wbContext,
-			ExcelContext excelContext, T classWithAnnotation)
-			throws IllegalAccessException, InvocationTargetException {
-		CellState cellState = new CellState(wbContext);
-		Map<String, CellStyle> stylesMap = excelContext.getCellStyles();
-		for (ExcelColumnContext context : excelContext.getColumnContextList()) {
-			Object val = context.getMethod().invoke(classWithAnnotation,
-					new Object[] {});
-			createCell(cellState, context, val,
-					stylesMap.get(context.getPropertyName()));
-		}
-	}
+  private static <T> void createCells(WorkbookContext wbContext, ExcelContext excelContext,
+      T classWithAnnotation) throws IllegalAccessException, InvocationTargetException {
+    CellState cellState = new CellState(wbContext);
+    Map<String, CellStyle> stylesMap = excelContext.getCellStyles();
+    for (ExcelColumnContext context : excelContext.getColumnContextList()) {
+      Object val = context.getMethod().invoke(classWithAnnotation, new Object[] {});
+      createCell(cellState, context, val, stylesMap.get(context.getPropertyName()));
+    }
+  }
 
-	private static void createCell(CellState cellState,
-			ExcelColumnContext context, Object val, CellStyle cellStyle) {
-		switch (context.getCellFormatContext().getCellType()) {
-		case DATE:
-			cellState.createDateCell((Date) val, context.getCellFormatContext()
-					.getDateFormat(), cellStyle);
-			break;
-		case BLANK:
-		case BOOLEAN:
-		case ERROR:
-		case FORMULA:
-		case STRING:
-		case NUMERIC:
-		default:
-			cellState.createCell(val, cellStyle);
-			break;
-		}
-	}
+  private static void createCell(CellState cellState, ExcelColumnContext context, Object val,
+      CellStyle cellStyle) {
+    switch (context.getCellFormatContext().getCellType()) {
+      case DATE:
+        cellState.createDateCell((Date) val, context.getCellFormatContext().getDateFormat(),
+            cellStyle);
+        break;
+      case BLANK:
+      case BOOLEAN:
+      case ERROR:
+      case FORMULA:
+      case STRING:
+      case NUMERIC:
+      default:
+        cellState.createCell(val, cellStyle);
+        break;
+    }
+  }
 
-	public static <T> ExcelContext readExcelColumnAnnotations(Class<T> clazz)
-			throws NoSuchMethodException, SecurityException {
-		ExcelContext context = new ExcelContext();
-		List<ExcelColumnContext> excelColumnAnnotationContextList = new ArrayList<ExcelColumnContext>();
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
-			if (field.isAnnotationPresent(ExcelColumn.class)) {
-				excelColumnAnnotationContextList.add(readAnnotationProperties(
-						field, clazz));
-			}
-		}
-		context.setColumnContextList(excelColumnAnnotationContextList);
-		return context;
-	}
+  public static <T> ExcelContext readExcelColumnAnnotations(Class<T> clazz)
+      throws NoSuchMethodException, SecurityException {
+    ExcelContext context = new ExcelContext();
+    List<ExcelColumnContext> excelColumnAnnotationContextList = new ArrayList<ExcelColumnContext>();
+    Field[] fields = clazz.getDeclaredFields();
+    for (Field field : fields) {
+      if (field.isAnnotationPresent(ExcelColumn.class)) {
+        excelColumnAnnotationContextList.add(readAnnotationProperties(field, clazz));
+      }
+    }
+    context.setColumnContextList(excelColumnAnnotationContextList);
+    return context;
+  }
 
-	private static <T> ExcelColumnContext readAnnotationProperties(Field field,
-			Class<T> clazz) throws NoSuchMethodException, SecurityException {
+  private static <T> ExcelColumnContext readAnnotationProperties(Field field, Class<T> clazz)
+      throws NoSuchMethodException, SecurityException {
 
-		ExcelColumnContext columnContext = new ExcelColumnContext();
-		ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
-		columnContext.setPropertyType(field.getType());
-		readExcelColumnContext(columnContext, annotation);
-		readPropertyAndMethodForSettingExcelValues(field, clazz, columnContext);
-		return columnContext;
-	}
+    ExcelColumnContext columnContext = new ExcelColumnContext();
+    ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
+    columnContext.setPropertyType(field.getType());
+    readExcelColumnContext(columnContext, annotation);
+    readPropertyAndMethodForSettingExcelValues(field, clazz, columnContext);
+    return columnContext;
+  }
 
-	private static <T> void readPropertyAndMethodForSettingExcelValues(
-			Field field, Class<T> clazz, ExcelColumnContext context)
-			throws NoSuchMethodException {
-		context.setPropertyName(field.getName());
-		String sMethod = ReflectionUtil.toGetterFormat(field.getName());
-		Method method = clazz.getMethod(sMethod, new Class[] {});
-		context.setMethod(method);
-	}
+  private static <T> void readPropertyAndMethodForSettingExcelValues(Field field, Class<T> clazz,
+      ExcelColumnContext context) throws NoSuchMethodException {
+    context.setPropertyName(field.getName());
+    String sMethod = ReflectionUtil.toGetterFormat(field.getName());
+    Method method = clazz.getMethod(sMethod, new Class[] {});
+    context.setMethod(method);
+  }
 
-	private static void readExcelColumnContext(
-			ExcelColumnContext columnContext, ExcelColumn annotation) {
-		readColumnHeaderProperties(columnContext, annotation);
-		readCellProperties(columnContext.getCellFormatContext(), annotation);
-	}
+  private static void readExcelColumnContext(ExcelColumnContext columnContext,
+      ExcelColumn annotation) {
+    readColumnHeaderProperties(columnContext, annotation);
+    readCellProperties(columnContext.getCellFormatContext(), annotation);
+  }
 
-	private static void readColumnHeaderProperties(ExcelColumnContext context,
-			ExcelColumn annotation) {
-		context.setColumnName(annotation.name());
-	}
+  private static void readColumnHeaderProperties(ExcelColumnContext context,
+      ExcelColumn annotation) {
+    context.setColumnName(annotation.name());
+  }
 
-	private static void readCellProperties(CellFormatContext context,
-			ExcelColumn annotation) {
-		context.setCellType(annotation.type());
-		context.setDateFormat(annotation.dateFormat());
-		context.setTextPosition(annotation.textPosition());
-		context.setFontFormat(annotation.fontFormat());
-	}
+  private static void readCellProperties(CellFormatContext context, ExcelColumn annotation) {
+    context.setCellType(annotation.type());
+    context.setDateFormat(annotation.dateFormat());
+    context.setTextPosition(annotation.textPosition());
+    context.setFontFormat(annotation.fontFormat());
+  }
 
 }

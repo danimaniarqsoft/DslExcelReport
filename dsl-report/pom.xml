@@ -8,7 +8,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>maven-jar-archetype</name>
+	<name>dsl-excel-report</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -26,6 +26,16 @@
 		<!-- Apache POI -->
 		<apache.poi.version>3.10.1</apache.poi.version>
 		<spring.version>4.1.0.RELEASE</spring.version>
+
+		<!-- Sonar properties -->
+		<sonar.maven.plugin.version>2.6</sonar.maven.plugin.version>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<!-- <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
+		<sonar.jdbc.username>sonar</sonar.jdbc.username>
+		<sonar.jdbc.password>admin</sonar.jdbc.password>
+		 --><sonar.exclusions>org/binarytherapy/generated/**/*,
+			**/GuiceBindComposer.java</sonar.exclusions>
+		<sonar.dynamic>reuseReports</sonar.dynamic>
 	</properties>
 
 	<dependencies>
@@ -113,6 +123,7 @@
 				<directory>target/jasper</directory>
 			</resource>
 		</resources>
+
 		<plugins>
 			<!-- Plugin para compilar el proyecto -->
 			<plugin>
@@ -123,6 +134,19 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
+			</plugin>
+			<!-- Sonarqube Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>${sonar.maven.plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>1.0.60</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

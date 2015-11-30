@@ -25,57 +25,57 @@ import com.danimaniarqsoft.report.util.ReflectionUtil;
  */
 public class ModelObjectBuilder {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ModelObjectBuilder.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ModelObjectBuilder.class);
 
-	private ModelObjectBuilder() {
-	}
+  private ModelObjectBuilder() {}
 
-	public static <T extends Object> List<T> createModelObject(Workbook workbook, Class<T> modelObjectTarget)
-			throws NoSuchMethodException, SecurityException {
-		Sheet sheet = workbook.getSheetAt(0);
-		ExcelContext excelContext = ExcelColumnReflection.readExcelColumnAnnotations(modelObjectTarget);
-		return processSheet(sheet, excelContext, modelObjectTarget);
-	}
+  public static <T extends Object> List<T> createModelObject(Workbook workbook,
+      Class<T> modelObjectTarget) throws NoSuchMethodException, SecurityException {
+    Sheet sheet = workbook.getSheetAt(0);
+    ExcelContext excelContext = ExcelColumnReflection.readExcelColumnAnnotations(modelObjectTarget);
+    return processSheet(sheet, excelContext, modelObjectTarget);
+  }
 
-	private static <T> List<T> processSheet(Sheet sheet, ExcelContext excelContext, Class<T> modelObjectTarget) {
-		Iterator<Row> rowIterator = sheet.iterator();
-		rowIterator.next();
-		return processRows(rowIterator, excelContext, modelObjectTarget);
-	}
+  private static <T> List<T> processSheet(Sheet sheet, ExcelContext excelContext,
+      Class<T> modelObjectTarget) {
+    Iterator<Row> rowIterator = sheet.iterator();
+    rowIterator.next();
+    return processRows(rowIterator, excelContext, modelObjectTarget);
+  }
 
-	private static <T> List<T> processRows(Iterator<Row> rowIterator, ExcelContext excelContext,
-			Class<T> modelObjectTarget) {
-		List<T> newList = new ArrayList<T>();
-		while (rowIterator.hasNext()) {
+  private static <T> List<T> processRows(Iterator<Row> rowIterator, ExcelContext excelContext,
+      Class<T> modelObjectTarget) {
+    List<T> newList = new ArrayList<T>();
+    while (rowIterator.hasNext()) {
 
-			Row row = rowIterator.next();
-			Iterator<Cell> cellIterator = row.iterator();
-			T newObject = processCells(cellIterator, excelContext, modelObjectTarget);
-			newList.add(newObject);
-		}
+      Row row = rowIterator.next();
+      Iterator<Cell> cellIterator = row.iterator();
+      T newObject = processCells(cellIterator, excelContext, modelObjectTarget);
+      newList.add(newObject);
+    }
 
-		return newList;
-	}
+    return newList;
+  }
 
-	private static <T> T processCells(Iterator<Cell> cellIterator, ExcelContext excelContext,
-			Class<T> modelObjectTarget) {
-		T newObject = ReflectionUtil.createNewInstance(modelObjectTarget);
+  private static <T> T processCells(Iterator<Cell> cellIterator, ExcelContext excelContext,
+      Class<T> modelObjectTarget) {
+    T newObject = ReflectionUtil.createNewInstance(modelObjectTarget);
 
-		List<ExcelColumnContext> columns = excelContext.getColumnContextList();
+    List<ExcelColumnContext> columns = excelContext.getColumnContextList();
 
-		int columnIndex = 0;
-		while (cellIterator.hasNext()) {
-			Cell cell = cellIterator.next();
-			try {
-				ExcelColumnContext columnContext = columns.get(columnIndex);
-				Object value = PoiUtil.getCellValue(cell, columnContext.getPropertyType());
-				ReflectionUtil.setFieldValue(newObject, columnContext.getPropertyName(), value);
-			} catch (Exception e) {
-				LOG.error("No fue posible iterar el cell");
-			}
+    int columnIndex = 0;
+    while (cellIterator.hasNext()) {
+      Cell cell = cellIterator.next();
+      try {
+        ExcelColumnContext columnContext = columns.get(columnIndex);
+        Object value = PoiUtil.getCellValue(cell, columnContext.getPropertyType());
+        ReflectionUtil.setFieldValue(newObject, columnContext.getPropertyName(), value);
+      } catch (Exception e) {
+        LOG.error("No fue posible iterar el cell");
+      }
 
-			columnIndex++;
-		}
-		return newObject;
-	}
+      columnIndex++;
+    }
+    return newObject;
+  }
 }

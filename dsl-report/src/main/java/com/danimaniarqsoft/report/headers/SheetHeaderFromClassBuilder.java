@@ -19,29 +19,29 @@ import com.danimaniarqsoft.report.annotations.ExcelColumn;
  */
 public class SheetHeaderFromClassBuilder<T> implements SheetHeaderBuilder<Class<T>> {
 
-	@Override
-	public int buildHeader(Sheet sheet, Class<T> headers) {
-		Field[] fields = headers.getDeclaredFields();
-		int nextRow = 0;
-		int cellCount = 0;
-		Row row = sheet.createRow(nextRow++);
-		for (Field field : fields) {
-			if (field.isAnnotationPresent(ExcelColumn.class)) {
-				ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
-				Cell cell = row.createCell(cellCount++);
-				cell.setCellValue(annotation.name());
-				cell.setCellStyle(addDefaultCellStyle(sheet));
-			}
-		}
-		return nextRow;
-	}
+  @Override
+  public int buildHeader(Sheet sheet, Class<T> headers) {
+    Field[] fields = headers.getDeclaredFields();
+    int nextRow = 0;
+    int cellCount = 0;
+    Row row = sheet.createRow(nextRow++);
+    for (Field field : fields) {
+      if (field.isAnnotationPresent(ExcelColumn.class)) {
+        ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
+        Cell cell = row.createCell(cellCount++);
+        cell.setCellValue(annotation.name());
+        cell.setCellStyle(addDefaultCellStyle(sheet));
+      }
+    }
+    return nextRow;
+  }
 
-	private CellStyle addDefaultCellStyle(Sheet sheet) {
-		CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-		cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_JUSTIFY);
-		cellStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-		cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		return cellStyle;
-	}
+  private CellStyle addDefaultCellStyle(Sheet sheet) {
+    CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+    cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+    cellStyle.setVerticalAlignment(CellStyle.VERTICAL_JUSTIFY);
+    cellStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+    cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+    return cellStyle;
+  }
 }

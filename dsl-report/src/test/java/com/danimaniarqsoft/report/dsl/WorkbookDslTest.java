@@ -19,7 +19,7 @@ public class WorkbookDslTest {
   private static final Logger LOG = LoggerFactory.getLogger(WorkbookDslTest.class);
 
   @Test(dataProvider = "crearListaDeMapas", dataProviderClass = ExcelDataProvider.class,
-      enabled = false)
+      enabled = true)
   public void workbookMapSourceTest(List<Map<String, Object>> datasource) throws IOException {
     try {
       Workbook workbook = WorkbookBuilder.createWorkbook(WorkbookEnum.XLSX).createSheet("hola1")

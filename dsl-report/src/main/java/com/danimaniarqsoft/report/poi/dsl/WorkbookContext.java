@@ -14,13 +14,13 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public class WorkbookContext implements Serializable {
 
-  private static final long serialVersionUID = 7491634228097843743L;
-  private Workbook          workbook;
-  private Sheet             currentSheet;
-  private Row               currentRow;
-  private int               firstRowNumWithData;
-  private int               nextRowNum;
-  private int               nextColumnNum;
+  private static final long  serialVersionUID = 7491634228097843743L;
+  private transient Workbook workbook;
+  private transient Sheet    currentSheet;
+  private transient Row      currentRow;
+  private int                firstRowNumWithData;
+  private int                nextRowNum;
+  private int                nextColumnNum;
 
   public WorkbookContext(Workbook workbook) {
     this.workbook = workbook;
@@ -59,7 +59,9 @@ public class WorkbookContext implements Serializable {
   }
 
   public int getNextRowNum() {
-    return nextRowNum++;
+    int actualNextRowNum = nextRowNum;
+    nextRowNum++;
+    return actualNextRowNum;
   }
 
   public void setNextRowNum(int nextRowNum) {
@@ -67,7 +69,9 @@ public class WorkbookContext implements Serializable {
   }
 
   public int getNextColumnNum() {
-    return nextColumnNum++;
+    int actualColumnNum = nextColumnNum;
+    nextColumnNum++;
+    return actualColumnNum;
   }
 
   public void setNextColumnNum(int nextColumnNum) {

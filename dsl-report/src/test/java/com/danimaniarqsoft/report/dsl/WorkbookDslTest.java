@@ -38,13 +38,6 @@ public class WorkbookDslTest {
     String name = Thread.currentThread().getName();
     LOG.info("name of Thread is: " + name);
     try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
-
-    try {
       Workbook workbook = WorkbookBuilder.createWorkbook(WorkbookEnum.XLSX).createSheet("Jugadores")
           .createHeader(Persona.class).createRows(datasource, Persona.class)
           .buildWorkbookWithAverageRow(1);

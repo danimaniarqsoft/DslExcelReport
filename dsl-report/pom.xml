@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Version de java -->
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 
 		<!-- SLF4J version e implemetacion. Las posibles implementaciones(Logger 
 			binding) son: slf4j-simple = Simple slf4j-log4j12 = Log4j, requiere archivo 

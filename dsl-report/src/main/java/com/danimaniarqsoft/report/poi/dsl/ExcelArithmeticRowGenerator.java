@@ -9,7 +9,9 @@ public class ExcelArithmeticRowGenerator {
   public static final char ASCII_CAPITAL_Z             = 'Z';
   public static final char ASCII_CHAR_BEFORE_CAPITAL_A = '@';
 
-  public ExcelArithmeticRowGenerator() {}
+  public ExcelArithmeticRowGenerator() {
+
+  }
 
   public static void createArithmeticRow(ExcelSheetParams params, CellState cellState) {
     char[] cellLetter = new char[] {(char) (LetterHolder.ASCII_CAPITAL_A + params.getOffset())};

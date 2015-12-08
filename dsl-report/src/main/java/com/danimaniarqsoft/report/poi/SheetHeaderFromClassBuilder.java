@@ -36,7 +36,7 @@ public class SheetHeaderFromClassBuilder<T> implements SheetHeaderBuilder<Class<
     return nextRow;
   }
 
-  private CellStyle addDefaultCellStyle(Sheet sheet) {
+  private static CellStyle addDefaultCellStyle(Sheet sheet) {
     CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
     cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
     cellStyle.setVerticalAlignment(CellStyle.VERTICAL_JUSTIFY);

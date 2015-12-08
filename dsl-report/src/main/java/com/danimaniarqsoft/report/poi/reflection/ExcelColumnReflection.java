@@ -40,8 +40,8 @@ public class ExcelColumnReflection {
    * @throws InvocationTargetException
    */
   public static <T> void createRowStateFromExcelAnnotation(WorkbookContext wbContext, List<T> rows,
-      Class<T> classWithAnnotation) throws NoSuchMethodException, SecurityException,
-          IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+      Class<T> classWithAnnotation)
+          throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
     ExcelContext excelContext = readExcelColumnAnnotations(classWithAnnotation);
     createStylesForCells(excelContext, wbContext.getWorkbook());
@@ -90,7 +90,7 @@ public class ExcelColumnReflection {
   }
 
   public static <T> ExcelContext readExcelColumnAnnotations(Class<T> clazz)
-      throws NoSuchMethodException, SecurityException {
+      throws NoSuchMethodException {
     ExcelContext context = new ExcelContext();
     List<ExcelColumnContext> excelColumnAnnotationContextList = new ArrayList<ExcelColumnContext>();
     Field[] fields = clazz.getDeclaredFields();
@@ -104,7 +104,7 @@ public class ExcelColumnReflection {
   }
 
   private static <T> ExcelColumnContext readAnnotationProperties(Field field, Class<T> clazz)
-      throws NoSuchMethodException, SecurityException {
+      throws NoSuchMethodException {
 
     ExcelColumnContext columnContext = new ExcelColumnContext();
     ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);

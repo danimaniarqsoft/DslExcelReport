@@ -7,6 +7,9 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.danimaniarqsoft.report.constants.MessageConstants.INT_TYPE;
+
+import com.danimaniarqsoft.report.constants.MessageConstants;
 import com.danimaniarqsoft.report.exceptions.DslException;
 import com.danimaniarqsoft.report.exceptions.FieldNotExistException;
 import com.danimaniarqsoft.report.exceptions.MethodNotPresentException;
@@ -20,7 +23,9 @@ import com.danimaniarqsoft.report.exceptions.MethodNotPresentException;
 public class ReflectionUtil {
   private static final Logger LOG = LoggerFactory.getLogger(ReflectionUtil.class);
 
-  private ReflectionUtil() {}
+  private ReflectionUtil() {
+
+  }
 
   /**
    * Convert a String name of a property of some class to getter format.
@@ -57,9 +62,9 @@ public class ReflectionUtil {
     try {
       return clazz.getMethod(toGetterFormat(fieldName), new Class[] {});
     } catch (NoSuchMethodException | SecurityException e) {
-      LOG.debug("The getter method for " + fieldName + " does not exist", e);
-      throw new MethodNotPresentException("The getter method for " + fieldName + " does not exist",
-          e);
+      LOG.debug(MessageConstants.GET_MESSAGE + fieldName + MessageConstants.RESOURCE_NOT_EXIST, e);
+      throw new MethodNotPresentException(
+          MessageConstants.GET_MESSAGE + fieldName + MessageConstants.RESOURCE_NOT_EXIST, e);
     }
   }
 
@@ -68,8 +73,8 @@ public class ReflectionUtil {
       Field field = searchField(fieldName, clazz);
       return clazz.getMethod(toSetterFormat(fieldName), new Class[] {field.getType()});
     } catch (NoSuchMethodException | SecurityException e) {
-      throw new MethodNotPresentException("The getter method for " + fieldName + " does not exist",
-          e);
+      throw new MethodNotPresentException(
+          MessageConstants.GET_MESSAGE + fieldName + MessageConstants.RESOURCE_NOT_EXIST, e);
     }
   }
 
@@ -86,31 +91,25 @@ public class ReflectionUtil {
   public static <T> Class<?> getClassPropertyType(String type, Class<T> clazz) {
     try {
       Field field = clazz.getDeclaredField(type);
-      Class<?> typeClass = field.getType();
-      return typeClass;
+      return field.getType();
     } catch (NoSuchFieldException e) {
-      throw new DslException("The typeOf parameter does not exist", e);
+      throw new DslException(MessageConstants.PARAMETER_NOT_EXIST, e);
     } catch (SecurityException e) {
-      throw new DslException("SecurityException", e);
+      throw new DslException(MessageConstants.SECURITY_EXCEPTION, e);
     }
   }
 
   public static <T> boolean isNumberClass(Class<T> testClass) {
-    if (testClass == Byte.class || testClass == Double.class || testClass == Float.class
+    return testClass == Byte.class || testClass == Double.class || testClass == Float.class
         || testClass == Integer.class || testClass == Short.class || testClass == Long.class
-        || testClass.toString().equals("int")) {
-      return true;
-
-    } else {
-      return false;
-    }
+        || testClass.toString().equals(INT_TYPE);
   }
 
   public static <P> Object invokeGetterMethod(Method method, P instance) {
     try {
       return method.invoke(instance, new Object[] {});
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-      throw new DslException("The method can not be invoked", e);
+      throw new DslException(MessageConstants.METHOD_CAN_NOT_INVOKED, e);
     }
   }
 
@@ -129,7 +128,7 @@ public class ReflectionUtil {
     try {
       return method.invoke(instance, new Object[] {value});
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-      throw new DslException("The method can not be invoked", e);
+      throw new DslException(MessageConstants.METHOD_CAN_NOT_INVOKED, e);
     }
   }
 
@@ -145,9 +144,9 @@ public class ReflectionUtil {
     try {
       return clazz.newInstance();
     } catch (InstantiationException e) {
-      LOG.error("No fue posible crear una instancia de la clase: ", e);
+      LOG.error(MessageConstants.CAN_NOT_BE_CREATED, e);
     } catch (IllegalAccessException e) {
-      LOG.error("Acceso Ilegal a la clase: ", e);
+      LOG.error(MessageConstants.ILLEGAL_ACCESS, e);
     }
     return null;
   }

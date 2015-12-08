@@ -6,8 +6,19 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+/**
+ * SheetHeaderDefaultBuilder
+ * 
+ * This Class is the Default Sheet Header template used to build The header of a Excell Sheet.
+ * 
+ * @author Daniel Cortes Pichardo
+ *
+ */
 public class SheetHeaderDefaultBuilder implements SheetHeaderBuilder<Map<String, Object>> {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int buildHeader(Sheet sheet, Map<String, Object> headers) {
     int nextRow = 0;

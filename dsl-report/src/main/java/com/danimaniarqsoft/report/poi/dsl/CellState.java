@@ -54,7 +54,7 @@ public class CellState {
     createCell(value, cellStyle);
   }
 
-  private CellFormatContext defaultCellFormatContext() {
+  private static CellFormatContext defaultCellFormatContext() {
     CellFormatContext defaultContext = new CellFormatContext();
     defaultContext.setTextPosition(
         new TextPosition[] {TextPosition.ALIGN_CENTER, TextPosition.VERTICAL_CENTER});
@@ -77,8 +77,7 @@ public class CellState {
       PoiUtil.createCell(context.getCurrentRow(), context.getNextColumnNum(), (Boolean) value,
           cellStyle);
     } else if (classTest == Calendar.class) {
-      PoiUtil.createCell(context.getCurrentRow(), context.getNextColumnNum(), (Calendar) value,
-          cellStyle);
+      PoiUtil.createCell(context.getCurrentRow(), context.getNextColumnNum(), (Calendar) value);
     } else if (classTest == RichTextString.class) {
       PoiUtil.createCell(context.getCurrentRow(), context.getNextColumnNum(),
           (RichTextString) value, cellStyle);
@@ -110,7 +109,7 @@ public class CellState {
     return context.getWorkbook();
   }
 
-  private void createNextRow(WorkbookContext context) {
-    context.setCurrentRow(context.getCurrentSheet().createRow(this.context.getNextRowNum()));
+  private static void createNextRow(WorkbookContext context) {
+    context.setCurrentRow(context.getCurrentSheet().createRow(context.getNextRowNum()));
   }
 }

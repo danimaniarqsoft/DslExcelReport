@@ -20,7 +20,9 @@ import com.danimaniarqsoft.report.poi.reflection.ExcelContext;
  */
 public class StyleBuilder {
 
-  private StyleBuilder() {}
+  private StyleBuilder() {
+
+  }
 
   public static Map<String, CellStyle> createCellStyles(ExcelContext context, Workbook workbook) {
     Map<String, CellStyle> cellStyles = new HashMap<String, CellStyle>();

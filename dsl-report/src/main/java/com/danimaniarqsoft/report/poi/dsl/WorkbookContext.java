@@ -22,6 +22,10 @@ public class WorkbookContext implements Serializable {
   private int               nextRowNum;
   private int               nextColumnNum;
 
+  public WorkbookContext(Workbook workbook) {
+    this.workbook = workbook;
+  }
+
   public Workbook getWorkbook() {
     return workbook;
   }
@@ -68,9 +72,5 @@ public class WorkbookContext implements Serializable {
 
   public void setNextColumnNum(int nextColumnNum) {
     this.nextColumnNum = nextColumnNum;
-  }
-
-  public WorkbookContext(Workbook workbook) {
-    this.workbook = workbook;
   }
 }

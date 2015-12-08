@@ -27,10 +27,12 @@ public class ModelObjectBuilder {
 
   private static final Logger LOG = LoggerFactory.getLogger(ModelObjectBuilder.class);
 
-  private ModelObjectBuilder() {}
+  private ModelObjectBuilder() {
+
+  }
 
   public static <T extends Object> List<T> createModelObject(Workbook workbook,
-      Class<T> modelObjectTarget) throws NoSuchMethodException, SecurityException {
+      Class<T> modelObjectTarget) throws NoSuchMethodException {
     Sheet sheet = workbook.getSheetAt(0);
     ExcelContext excelContext = ExcelColumnReflection.readExcelColumnAnnotations(modelObjectTarget);
     return processSheet(sheet, excelContext, modelObjectTarget);

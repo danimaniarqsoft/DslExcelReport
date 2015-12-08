@@ -21,7 +21,9 @@ public enum FontFormat {
 
   private String fontName = "[NAME NOT SOPORTED]";
 
-  private FontFormat() {}
+  private FontFormat() {
+
+  }
 
   private FontFormat(short keyCode) {
     this.keyCode = keyCode;

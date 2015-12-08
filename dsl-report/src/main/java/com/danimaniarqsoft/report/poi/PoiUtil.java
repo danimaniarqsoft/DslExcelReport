@@ -48,6 +48,10 @@ public class PoiUtil {
 
   private static final Logger LOG = LoggerFactory.getLogger(PoiUtil.class);
 
+  private PoiUtil() {
+
+  }
+
   /**
    * Create a Workbook based on WorkbookEnum class
    * 
@@ -107,7 +111,6 @@ public class PoiUtil {
    * @return
    */
   public static Cell createCell(Row row, int nextCol, boolean value, CellStyle cellStyle) {
-
     Cell cell = row.createCell(nextCol++);
     cell.setCellValue(value);
     cell.setCellStyle(cellStyle);
@@ -123,7 +126,7 @@ public class PoiUtil {
    * @param cellStyle
    * @return
    */
-  public static Cell createCell(Row row, int nextCol, Calendar value, CellStyle cellStyle) {
+  public static Cell createCell(Row row, int nextCol, Calendar value) {
     CellStyle s = row.getSheet().getWorkbook().createCellStyle();
     s.setAlignment(CellStyle.ALIGN_CENTER);
     s.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
@@ -276,19 +279,23 @@ public class PoiUtil {
       case Cell.CELL_TYPE_BOOLEAN:
         return type.cast(cell.getBooleanCellValue());
       case Cell.CELL_TYPE_NUMERIC:
-        if (HSSFDateUtil.isCellDateFormatted(cell)) {
-          return type.cast(cell.getDateCellValue());
-        } else {
-          if (type.equals(Integer.class)) {
-            return type.cast(Integer.valueOf((int) cell.getNumericCellValue()));
-          } else {
-            return type.cast(cell.getNumericCellValue());
-          }
-        }
+        return getCellNumericType(cell, type);
       case Cell.CELL_TYPE_STRING:
         return type.cast(cell.getStringCellValue());
       default:
         throw new IllegalArgumentException("The Type of Cell Does not exist");
+    }
+  }
+
+  private static <T> T getCellNumericType(Cell cell, Class<T> type) {
+    if (HSSFDateUtil.isCellDateFormatted(cell)) {
+      return type.cast(cell.getDateCellValue());
+    } else {
+      if (type.equals(Integer.class)) {
+        return type.cast(Integer.valueOf((int) cell.getNumericCellValue()));
+      } else {
+        return type.cast(cell.getNumericCellValue());
+      }
     }
   }
 

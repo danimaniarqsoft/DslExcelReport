@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.danimaniarqsoft.report.constants.MessageConstants;
 import com.danimaniarqsoft.report.poi.PoiUtil;
 import com.danimaniarqsoft.report.poi.reflection.ExcelColumnContext;
 import com.danimaniarqsoft.report.poi.reflection.ExcelColumnReflection;
@@ -73,9 +74,8 @@ public class ModelObjectBuilder {
         Object value = PoiUtil.getCellValue(cell, columnContext.getPropertyType());
         ReflectionUtil.setFieldValue(newObject, columnContext.getPropertyName(), value);
       } catch (Exception e) {
-        LOG.error("No fue posible iterar el cell");
+        LOG.error(MessageConstants.CELL_ITERATOR_ERROR, e);
       }
-
       columnIndex++;
     }
     return newObject;

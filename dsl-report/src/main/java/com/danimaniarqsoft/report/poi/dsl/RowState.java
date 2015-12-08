@@ -6,13 +6,19 @@ import java.util.Map.Entry;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.danimaniarqsoft.report.constants.MessageConstants;
 import com.danimaniarqsoft.report.model.ExcelSheetParams;
+import com.danimaniarqsoft.report.poi.builders.ModelObjectBuilder;
 import com.danimaniarqsoft.report.poi.reflection.ExcelColumnReflection;
 
 public class RowState {
 
-  WorkbookContext context;
+  private static final Logger LOG = LoggerFactory.getLogger(RowState.class);
+
+  WorkbookContext             context;
 
   public RowState(WorkbookContext context) {
     this.context = context;
@@ -41,7 +47,7 @@ public class RowState {
     try {
       ExcelColumnReflection.createRowStateFromExcelAnnotation(context, rows, classWithAnnotation);
     } catch (Exception e) {
-      e.printStackTrace();
+      LOG.error(MessageConstants.REFLECTION_ERROR, e);
     }
     return this;
   }

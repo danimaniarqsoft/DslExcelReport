@@ -167,8 +167,7 @@ public class PoiUtil {
    */
 
   public static Cell createCell(Row row, final int nextCol, String value, CellStyle cellStyle) {
-    int nextIndex = nextCol + 1;
-    Cell cell = row.createCell(nextIndex);
+    Cell cell = row.createCell(nextCol);
     cell.setCellValue(value);
     cell.setCellStyle(cellStyle);
     return cell;

@@ -111,8 +111,7 @@ public class PoiUtil {
    * @return
    */
   public static Cell createCell(Row row, final int nextCol, boolean value, CellStyle cellStyle) {
-    int nextIndex = nextCol + 1;
-    Cell cell = row.createCell(nextIndex);
+    Cell cell = row.createCell(nextCol);
     cell.setCellValue(value);
     cell.setCellStyle(cellStyle);
     return cell;
@@ -128,11 +127,10 @@ public class PoiUtil {
    * @return
    */
   public static Cell createCell(Row row, final int nextCol, Calendar value) {
-    int nextIndex = nextCol + 1;
     CellStyle s = row.getSheet().getWorkbook().createCellStyle();
     s.setAlignment(CellStyle.ALIGN_CENTER);
     s.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-    Cell cell = row.createCell(nextIndex);
+    Cell cell = row.createCell(nextCol);
     cell.setCellValue(value);
     cell.setCellStyle(s);
     return cell;
@@ -149,8 +147,7 @@ public class PoiUtil {
    */
   public static Cell createCell(Row row, final int nextCol, RichTextString value,
       CellStyle cellStyle) {
-    int nextIndex = nextCol + 1;
-    Cell cell = row.createCell(nextIndex);
+    Cell cell = row.createCell(nextCol);
     cell.setCellValue(value);
     cell.setCellStyle(cellStyle);
     return cell;

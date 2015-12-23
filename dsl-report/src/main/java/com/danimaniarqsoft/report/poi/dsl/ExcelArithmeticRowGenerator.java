@@ -9,7 +9,7 @@ public class ExcelArithmeticRowGenerator {
   public static final char ASCII_CAPITAL_Z             = 'Z';
   public static final char ASCII_CHAR_BEFORE_CAPITAL_A = '@';
 
-  public ExcelArithmeticRowGenerator() {
+  private ExcelArithmeticRowGenerator() {
 
   }
 
@@ -66,7 +66,7 @@ public class ExcelArithmeticRowGenerator {
   }
 
   private static char returnLastChar(char[] sb) {
-    if ((sb.length == 0)) {
+    if (sb.length == 0) {
       return ASCII_CHAR_BEFORE_CAPITAL_A;
     } else {
       return sb[sb.length - 1];
@@ -74,7 +74,7 @@ public class ExcelArithmeticRowGenerator {
   }
 
   private static int returnSaveIndex(char[] sb) {
-    if ((sb.length == 0)) {
+    if (sb.length == 0) {
       return 0;
     } else {
       return sb.length - 1;
@@ -82,7 +82,7 @@ public class ExcelArithmeticRowGenerator {
   }
 
   private static char[] returnSaveValue(char[] sb) {
-    if ((sb.length == 1)) {
+    if (sb.length == 1) {
       return new char[] {ASCII_CHAR_BEFORE_CAPITAL_A};
     } else {
       return charSubSet(sb, 0, sb.length - 1);
@@ -106,13 +106,5 @@ public class ExcelArithmeticRowGenerator {
 
   private static void replaceChartAt(char[] sequence, char newChar, int poss) {
     sequence[poss] = newChar;
-  }
-
-  public static void main(String[] args) {
-    char[] cad = new char[] {ASCII_CAPITAL_A};
-    for (int i = 0; i < 1999; i++) {
-      cad = calculateNextSequence(cad);
-      System.out.println(cad);
-    }
   }
 }

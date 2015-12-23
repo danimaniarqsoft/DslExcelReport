@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.danimaniarqsoft.report.annotations.ExcelColumn;
+import com.danimaniarqsoft.report.exceptions.ApplicationException;
 import com.danimaniarqsoft.report.model.CellFormatContext;
 import com.danimaniarqsoft.report.poi.builders.StyleBuilder;
 import com.danimaniarqsoft.report.poi.dsl.CellState;
@@ -27,6 +28,11 @@ import com.danimaniarqsoft.report.util.ReflectionUtil;
  * 
  */
 public class ExcelColumnReflection {
+
+  private ExcelColumnReflection() {
+
+  }
+
   /**
    * Create a rows based on ExcelAnnotation class to create Excel rows.
    * 
@@ -40,8 +46,7 @@ public class ExcelColumnReflection {
    * @throws InvocationTargetException
    */
   public static <T> void createRowStateFromExcelAnnotation(WorkbookContext wbContext, List<T> rows,
-      Class<T> classWithAnnotation)
-          throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+      Class<T> classWithAnnotation) throws ApplicationException {
 
     ExcelContext excelContext = readExcelColumnAnnotations(classWithAnnotation);
     createStylesForCells(excelContext, wbContext.getWorkbook());
@@ -54,19 +59,24 @@ public class ExcelColumnReflection {
   }
 
   private static <T> void createRows(WorkbookContext wbContext, List<T> rows,
-      ExcelContext excelContext) throws IllegalAccessException, InvocationTargetException {
+      ExcelContext excelContext) throws ApplicationException {
     for (T classWithAnnotation : rows) {
       createCells(wbContext, excelContext, classWithAnnotation);
     }
   }
 
   private static <T> void createCells(WorkbookContext wbContext, ExcelContext excelContext,
-      T classWithAnnotation) throws IllegalAccessException, InvocationTargetException {
+      T classWithAnnotation) throws ApplicationException {
     CellState cellState = new CellState(wbContext);
     Map<String, CellStyle> stylesMap = excelContext.getCellStyles();
     for (ExcelColumnContext context : excelContext.getColumnContextList()) {
-      Object val = context.getMethod().invoke(classWithAnnotation, new Object[] {});
-      createCell(cellState, context, val, stylesMap.get(context.getPropertyName()));
+      Object val;
+      try {
+        val = context.getMethod().invoke(classWithAnnotation, new Object[] {});
+        createCell(cellState, context, val, stylesMap.get(context.getPropertyName()));
+      } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        throw new ApplicationException("CreateCell Error", e);
+      }
     }
   }
 
@@ -90,7 +100,7 @@ public class ExcelColumnReflection {
   }
 
   public static <T> ExcelContext readExcelColumnAnnotations(Class<T> clazz)
-      throws NoSuchMethodException {
+      throws ApplicationException {
     ExcelContext context = new ExcelContext();
     List<ExcelColumnContext> excelColumnAnnotationContextList = new ArrayList<ExcelColumnContext>();
     Field[] fields = clazz.getDeclaredFields();
@@ -104,7 +114,7 @@ public class ExcelColumnReflection {
   }
 
   private static <T> ExcelColumnContext readAnnotationProperties(Field field, Class<T> clazz)
-      throws NoSuchMethodException {
+      throws ApplicationException {
 
     ExcelColumnContext columnContext = new ExcelColumnContext();
     ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
@@ -115,11 +125,15 @@ public class ExcelColumnReflection {
   }
 
   private static <T> void readPropertyAndMethodForSettingExcelValues(Field field, Class<T> clazz,
-      ExcelColumnContext context) throws NoSuchMethodException {
+      ExcelColumnContext context) throws ApplicationException {
     context.setPropertyName(field.getName());
     String sMethod = ReflectionUtil.toGetterFormat(field.getName());
-    Method method = clazz.getMethod(sMethod, new Class[] {});
-    context.setMethod(method);
+    try {
+      Method method = clazz.getMethod(sMethod, new Class[] {});
+      context.setMethod(method);
+    } catch (NoSuchMethodException | SecurityException e) {
+      throw new ApplicationException("readPropertyException", e);
+    }
   }
 
   private static void readExcelColumnContext(ExcelColumnContext columnContext,

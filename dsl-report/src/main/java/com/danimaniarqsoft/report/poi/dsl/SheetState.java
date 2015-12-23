@@ -2,9 +2,9 @@ package com.danimaniarqsoft.report.poi.dsl;
 
 import java.util.Map;
 
-import com.danimaniarqsoft.report.poi.SheetHeaderBuilder;
-import com.danimaniarqsoft.report.poi.SheetHeaderDefaultBuilder;
-import com.danimaniarqsoft.report.poi.SheetHeaderFromClassBuilder;
+import com.danimaniarqsoft.report.headers.SheetHeaderBuilder;
+import com.danimaniarqsoft.report.headers.SheetHeaderDefaultBuilder;
+import com.danimaniarqsoft.report.headers.SheetHeaderFromClassBuilder;
 
 public class SheetState {
   private WorkbookContext context;

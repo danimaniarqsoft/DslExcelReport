@@ -110,8 +110,9 @@ public class PoiUtil {
    * @param cellStyle
    * @return
    */
-  public static Cell createCell(Row row, int nextCol, boolean value, CellStyle cellStyle) {
-    Cell cell = row.createCell(nextCol++);
+  public static Cell createCell(Row row, final int nextCol, boolean value, CellStyle cellStyle) {
+    int nextIndex = nextCol + 1;
+    Cell cell = row.createCell(nextIndex);
     cell.setCellValue(value);
     cell.setCellStyle(cellStyle);
     return cell;
@@ -126,11 +127,12 @@ public class PoiUtil {
    * @param cellStyle
    * @return
    */
-  public static Cell createCell(Row row, int nextCol, Calendar value) {
+  public static Cell createCell(Row row, final int nextCol, Calendar value) {
+    int nextIndex = nextCol + 1;
     CellStyle s = row.getSheet().getWorkbook().createCellStyle();
     s.setAlignment(CellStyle.ALIGN_CENTER);
     s.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-    Cell cell = row.createCell(nextCol++);
+    Cell cell = row.createCell(nextIndex);
     cell.setCellValue(value);
     cell.setCellStyle(s);
     return cell;
@@ -145,8 +147,10 @@ public class PoiUtil {
    * @param cellStyle
    * @return
    */
-  public static Cell createCell(Row row, int nextCol, RichTextString value, CellStyle cellStyle) {
-    Cell cell = row.createCell(nextCol++);
+  public static Cell createCell(Row row, final int nextCol, RichTextString value,
+      CellStyle cellStyle) {
+    int nextIndex = nextCol + 1;
+    Cell cell = row.createCell(nextIndex);
     cell.setCellValue(value);
     cell.setCellStyle(cellStyle);
     return cell;
@@ -162,8 +166,9 @@ public class PoiUtil {
    * @return
    */
 
-  public static Cell createCell(Row row, int nextCol, String value, CellStyle cellStyle) {
-    Cell cell = row.createCell(nextCol++);
+  public static Cell createCell(Row row, final int nextCol, String value, CellStyle cellStyle) {
+    int nextIndex = nextCol + 1;
+    Cell cell = row.createCell(nextIndex);
     cell.setCellValue(value);
     cell.setCellStyle(cellStyle);
     return cell;
@@ -271,20 +276,36 @@ public class PoiUtil {
   }
 
   public static <T> T getCellValue(Cell cell, Class<T> type) {
-    switch (cell.getCellType()) {
-      case Cell.CELL_TYPE_BLANK:
-      case Cell.CELL_TYPE_ERROR:
-      case Cell.CELL_TYPE_FORMULA:
-        return type.cast(cell.toString());
-      case Cell.CELL_TYPE_BOOLEAN:
-        return type.cast(cell.getBooleanCellValue());
-      case Cell.CELL_TYPE_NUMERIC:
-        return getCellNumericType(cell, type);
-      case Cell.CELL_TYPE_STRING:
-        return type.cast(cell.getStringCellValue());
-      default:
-        throw new IllegalArgumentException("The Type of Cell Does not exist");
+    int cellType = cell.getCellType();
+
+    if (isTextType(cellType)) {
+      return type.cast(cell.toString());
+    } else if (isBooleanType(cellType)) {
+      return type.cast(cell.getBooleanCellValue());
+    } else if (isNumericType(cellType)) {
+      return getCellNumericType(cell, type);
+    } else if (isStringType(cellType)) {
+      return type.cast(cell.getStringCellValue());
+    } else {
+      throw new IllegalArgumentException("The Type of Cell Does not exist");
     }
+  }
+
+  private static boolean isTextType(final int cellType) {
+    return (cellType == Cell.CELL_TYPE_BLANK) || (cellType == Cell.CELL_TYPE_ERROR)
+        || (cellType == Cell.CELL_TYPE_FORMULA);
+  }
+
+  private static boolean isBooleanType(final int cellType) {
+    return cellType == Cell.CELL_TYPE_BOOLEAN;
+  }
+
+  private static boolean isNumericType(final int cellType) {
+    return cellType == Cell.CELL_TYPE_NUMERIC;
+  }
+
+  private static boolean isStringType(final int cellType) {
+    return cellType == Cell.CELL_TYPE_STRING;
   }
 
   private static <T> T getCellNumericType(Cell cell, Class<T> type) {

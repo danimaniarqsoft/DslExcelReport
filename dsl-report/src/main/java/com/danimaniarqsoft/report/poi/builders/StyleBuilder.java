@@ -20,6 +20,8 @@ import com.danimaniarqsoft.report.poi.reflection.ExcelContext;
  */
 public class StyleBuilder {
 
+  private static final String ARIAL_FONT = "Arial";
+
   private StyleBuilder() {
 
   }
@@ -46,70 +48,97 @@ public class StyleBuilder {
 
   public static void addFontFormat(CellStyle cellStyle, Font font, FontFormat[] fontFormat) {
     font.setFontHeightInPoints((short) 10);
-    font.setFontName("Arial");
+    font.setFontName(ARIAL_FONT);
     configFont(font, fontFormat);
     cellStyle.setFont(font);
+  }
+
+  public static void addTextPosition(CellStyle cellStyle, TextPosition[] textPosition) {
+    for (TextPosition position : textPosition) {
+      if (isCenterOrFillAlignment(position) || isGeneralOrLeftOrRightAlignment(position)) {
+        cellStyle.setAlignment(position.getKeyCode());
+      } else if (isBottomOrCenterVerticalAlignment(position)
+          || isJustifyOrTopVerticalAlignment(position)) {
+        cellStyle.setVerticalAlignment(position.getKeyCode());
+      }
+    }
+  }
+
+  private static boolean isCenterOrFillAlignment(TextPosition position) {
+    return position.equals(TextPosition.ALIGN_CENTER)
+        || position.equals(TextPosition.ALIGN_CENTER_SELECTION)
+        || position.equals(TextPosition.ALIGN_FILL);
+  }
+
+  private static boolean isGeneralOrLeftOrRightAlignment(TextPosition position) {
+    return position.equals(TextPosition.ALIGN_GENERAL) || position.equals(TextPosition.ALIGN_LEFT)
+        || position.equals(TextPosition.ALIGN_RIGHT);
+  }
+
+  private static boolean isBottomOrCenterVerticalAlignment(TextPosition position) {
+    return position.equals(TextPosition.VERTICAL_BOTTOM)
+        || position.equals(TextPosition.VERTICAL_CENTER);
+  }
+
+  private static boolean isJustifyOrTopVerticalAlignment(TextPosition position) {
+    return position.equals(TextPosition.VERTICAL_JUSTIFY)
+        || position.equals(TextPosition.VERTICAL_TOP);
   }
 
   private static void configFont(Font font, FontFormat[] fontFormat) {
     if (fontFormat != null) {
       for (FontFormat format : fontFormat) {
-        switch (format) {
-          case BOLD:
-          case NORMAL:
-            font.setBoldweight(format.getKeyCode());
-            break;
-          case ITALIC:
-            font.setItalic(true);
-            break;
-          case STRIKEOUT:
-            font.setStrikeout(true);
-            break;
-          case COLOR_NORMAL:
-          case COLOR_RED:
-          case COLOR_BLUE:
-          case COLOR_BROWN:
-          case COLOR_GRAY:
-          case COLOR_GREEN:
-          case COLOR_ORANGE:
-          case COLOR_PINK:
-          case COLOR_PURPLE:
-          case COLOR_WHITE:
-          case COLOR_YELLOW:
-            font.setColor(format.getKeyCode());
-            break;
-          case ARIAL:
-          case CALIBRI:
-          case TIMES_NEW_ROMAN:
-            font.setFontName(format.getFontName());
-            break;
-          default:
-            break;
+        if (isBoldWeight(format)) {
+          font.setBoldweight(format.getKeyCode());
+        } else if (isItalic(format)) {
+          font.setItalic(true);
+        } else if (isStrikeout(format)) {
+          font.setStrikeout(true);
+        } else if (isColor(format)) {
+          font.setColor(format.getKeyCode());
+        } else if (isFont(format)) {
+          font.setFontName(format.getFontName());
         }
       }
     }
   }
 
-  public static void addTextPosition(CellStyle cellStyle, TextPosition[] textPosition) {
-    for (TextPosition position : textPosition) {
-      switch (position) {
-        case ALIGN_CENTER:
-        case ALIGN_CENTER_SELECTION:
-        case ALIGN_FILL:
-        case ALIGN_GENERAL:
-        case ALIGN_LEFT:
-        case ALIGN_RIGHT:
-          cellStyle.setAlignment(position.getKeyCode());
-          break;
-        case VERTICAL_BOTTOM:
-        case VERTICAL_CENTER:
-        case VERTICAL_JUSTIFY:
-        case VERTICAL_TOP:
-          cellStyle.setVerticalAlignment(position.getKeyCode());
-          break;
-        default:
-          break;
-      }
-    }
+  private static boolean isBoldWeight(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.BOLD) || fontFormat.equals(FontFormat.NORMAL);
+  }
+
+  private static boolean isItalic(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.ITALIC);
+  }
+
+  private static boolean isStrikeout(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.STRIKEOUT);
+  }
+
+  private static boolean isColor(FontFormat fontFormat) {
+    return isNormalOrRedColor(fontFormat) || isBlueOrBrownColor(fontFormat)
+        || isOrangeOrPink(fontFormat) || isPurpleOrWhiteOrYellowColor(fontFormat);
+  }
+
+  private static boolean isNormalOrRedColor(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.COLOR_NORMAL) || fontFormat.equals(FontFormat.COLOR_RED);
+  }
+
+  private static boolean isBlueOrBrownColor(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.COLOR_BLUE) || fontFormat.equals(FontFormat.COLOR_BROWN);
+  }
+
+  private static boolean isOrangeOrPink(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.COLOR_ORANGE) || fontFormat.equals(FontFormat.COLOR_PINK);
+  }
+
+  private static boolean isPurpleOrWhiteOrYellowColor(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.COLOR_PURPLE) || fontFormat.equals(FontFormat.COLOR_WHITE)
+        || fontFormat.equals(FontFormat.COLOR_YELLOW);
+  }
+
+  private static boolean isFont(FontFormat fontFormat) {
+    return fontFormat.equals(FontFormat.ARIAL) || fontFormat.equals(FontFormat.CALIBRI)
+        || fontFormat.equals(FontFormat.TIMES_NEW_ROMAN);
   }
 }

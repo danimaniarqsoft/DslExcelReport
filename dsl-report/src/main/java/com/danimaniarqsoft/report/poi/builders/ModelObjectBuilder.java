@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.danimaniarqsoft.report.constants.MessageConstants;
+import com.danimaniarqsoft.report.exceptions.ApplicationException;
 import com.danimaniarqsoft.report.poi.PoiUtil;
 import com.danimaniarqsoft.report.poi.reflection.ExcelColumnContext;
 import com.danimaniarqsoft.report.poi.reflection.ExcelColumnReflection;
@@ -33,7 +34,7 @@ public class ModelObjectBuilder {
   }
 
   public static <T extends Object> List<T> createModelObject(Workbook workbook,
-      Class<T> modelObjectTarget) throws NoSuchMethodException {
+      Class<T> modelObjectTarget) throws ApplicationException {
     Sheet sheet = workbook.getSheetAt(0);
     ExcelContext excelContext = ExcelColumnReflection.readExcelColumnAnnotations(modelObjectTarget);
     return processSheet(sheet, excelContext, modelObjectTarget);

@@ -100,9 +100,8 @@ public class ReflectionUtil {
   }
 
   public static <T> boolean isNumberClass(Class<T> testClass) {
-    return testClass == Byte.class || testClass == Double.class || testClass == Float.class
-        || testClass == Integer.class || testClass == Short.class || testClass == Long.class
-        || testClass.toString().equals(INT_TYPE);
+    return isByteOrDoubleOrFloat(testClass) || isIntegerOrShortOrLong(testClass)
+        || isIntType(testClass);
   }
 
   public static <P> Object invokeGetterMethod(Method method, P instance) {
@@ -149,5 +148,17 @@ public class ReflectionUtil {
       LOG.error(MessageConstants.ILLEGAL_ACCESS, e);
     }
     return null;
+  }
+
+  private static <T> boolean isByteOrDoubleOrFloat(Class<T> testClass) {
+    return testClass == Byte.class || testClass == Double.class || testClass == Float.class;
+  }
+
+  private static <T> boolean isIntegerOrShortOrLong(Class<T> testClass) {
+    return testClass == Integer.class || testClass == Short.class || testClass == Long.class;
+  }
+
+  private static <T> boolean isIntType(Class<T> testClass) {
+    return testClass.toString().equals(INT_TYPE);
   }
 }

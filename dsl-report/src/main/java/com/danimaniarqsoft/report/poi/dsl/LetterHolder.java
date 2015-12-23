@@ -30,14 +30,6 @@ public class LetterHolder {
     return columnConcatenated.toString() + currentChar++;
   }
 
-  public static void main(String[] args) {
-    String cad = "A";
-    for (int i = 0; i < 1999; i++) {
-      cad = compute(cad);
-      System.out.println(cad);
-    }
-  }
-
   public static String compute(StringBuilder sb) {
     char lastChar = returnSaveChar(sb);
     if (lastChar + 1 > 90) {
@@ -49,7 +41,7 @@ public class LetterHolder {
   }
 
   public static char returnSaveChar(StringBuilder sb) {
-    if ((sb.length() - 1 == -1)) {
+    if ((sb.length() - 1) == -1) {
       return '@';
     } else {
       return sb.charAt(sb.length() - 1);
@@ -65,7 +57,7 @@ public class LetterHolder {
   }
 
   public static String returnSaveValue(StringBuilder sb) {
-    if ((sb.length() - 1 == -1)) {
+    if ((sb.length() - 1) == -1) {
       return "A";
     } else {
       return sb.substring(0, sb.length() - 1);

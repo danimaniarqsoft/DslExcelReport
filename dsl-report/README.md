@@ -1,14 +1,9 @@
 DSL Framework for Apache Poi
 ==============================
-Modified again :)
-- [x] @mentions, #refs, [links](), **formatting**, and <del>tags</del> are supported
-- [x] list syntax is required (any unordered or ordered list supported)
-- [x] this is a complete item
-- [ ] this is an incomplete item
 
 Introduction
 ------------------------------
-The present project try to make the Excel development easy through Fluent Api for create Excel documents. The core Api for the DSL [^fluentApi] is based on [Apache POI](http://poi.apache.org/ "Apache POI Home").
+The present project try to make the Excel development easy through Fluent Api for create Excel documents. The core Api for the DSL [Martin Fowler](http://martinfowler.com/bliki/FluentInterface.html) is based on [Apache POI](http://poi.apache.org/ "Apache POI Home").
 
 Excel Column Annotation
 ------------------------------

@@ -13,6 +13,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<!-- Version de java -->
 		<java.version>1.8</java.version>
 
@@ -30,12 +32,16 @@
 		<!-- Sonar properties -->
 		<sonar.maven.plugin.version>2.6</sonar.maven.plugin.version>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<!-- <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
-		<sonar.jdbc.username>sonar</sonar.jdbc.username>
-		<sonar.jdbc.password>admin</sonar.jdbc.password>
-		 --><sonar.exclusions>org/binarytherapy/generated/**/*,
+		<!-- <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url> 
+			<sonar.jdbc.username>sonar</sonar.jdbc.username> <sonar.jdbc.password>admin</sonar.jdbc.password> -->
+		<sonar.exclusions>org/binarytherapy/generated/**/*,
 			**/GuiceBindComposer.java</sonar.exclusions>
 		<sonar.dynamic>reuseReports</sonar.dynamic>
+		<sonar.language>java</sonar.language>
+		<sonar.jacoco.reportMissing.force.zero>true</sonar.jacoco.reportMissing.force.zero>
+		<!-- JVM Parameters -->
+		<argLine>-Xmx128m -verbose:class</argLine>
+
 	</properties>
 
 	<dependencies>

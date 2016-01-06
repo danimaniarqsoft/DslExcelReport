@@ -78,7 +78,13 @@ fontFormat | this property is used for font format | `FontFormat.NORMAL`
 
 &copy; danimaniArqsoft
 
-#Run Test
-mvn help:describe -Dplugin=org.jacoco:jacoco-maven-plugin -Ddetail
-#Sonar for Testing
+#Run Code Coverage
+##Prepare the enviroment
+
+	mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install
+	mvn sonar:sonar
+##Integration with Eclipse
+For integration with Ec
+##See more information at:
+http://docs.sonarqube.org/display/PLUG/Usage+of+JaCoCo+with+Java+Plugin
 http://docs.sonarqube.org/display/SONAR/Analyzing+with+SonarQube+Scanner+for+Maven

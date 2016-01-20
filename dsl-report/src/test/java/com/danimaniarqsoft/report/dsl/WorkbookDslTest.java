@@ -28,7 +28,7 @@ public class WorkbookDslTest {
       workbook.write(fileOut);
 
     } catch (Exception e) {
-      LOG.error("Ocurrio un error", e);
+      LOG.error("Ocurrio un error", e);    
     }
   }
 
